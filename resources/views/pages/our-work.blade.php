@@ -2,6 +2,7 @@
 @section('title', $work->title)
 @section('description', \Illuminate\Support\Str::limit(strip_tags($work->body), 160))
 @section('og_image', Voyager::image($work->image_full ?: $work->image))
+@section('overlay', '1')
 @section('content')
 @php $images = array_values(array_filter((array) json_decode($work->images, true))); @endphp
 @include('includes.masthead', ['title' => $work->title, 'eyebrow' => $work->sub_title, 'image' => Voyager::image($work->image_full ?: $work->image), 'crumbs' => [['Our Work', route('our-works')], [$work->title, null]]])

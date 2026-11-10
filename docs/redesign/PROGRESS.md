@@ -11,3 +11,5 @@
 - Social settings are bare domains (hidden until real profile URLs are added).
 - Stats (projects/clients/awards) come from settings; client should confirm they are verified.
 - No individual service pages exist (none created); `projects.group` values are inconsistent (unused).
+- Polish pass: header images on every inner page (team/contact/404 use existing `public/img` assets; works uses the featured project; news uses `the-company.jpg`), transparent header over images, display font switched to Jost (light, architectural) with Inter body, tidier 2-column works grid with full-width lead tile, `.prose` normalises inconsistent admin-HTML font sizes, sticky section headings, higher-contrast labels over photos.
+- Content gap: 5 team members use a generic grey avatar as their uploaded photo.

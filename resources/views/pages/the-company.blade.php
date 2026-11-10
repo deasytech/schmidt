@@ -2,6 +2,7 @@
 @section('title', $page->title)
 @section('description', strip_tags($page->excerpt ?: setting('site.description')))
 @section('og_image', Voyager::image($page->image))
+@section('overlay', '1')
 @section('content')
 @include('includes.masthead', ['title' => $page->title, 'eyebrow' => $page->excerpt, 'image' => Voyager::image($page->image), 'crumbs' => [['The Company', null]]])
 

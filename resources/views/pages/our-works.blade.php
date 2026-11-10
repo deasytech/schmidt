@@ -1,9 +1,10 @@
 @extends('layouts.default')
 @section('title', 'Our Work')
 @section('description', 'Selected architecture, interior design and construction projects by ' . setting('site.title') . '.')
+@section('overlay', '1')
 @section('content')
-@php $cats = $works->pluck('sub_title')->filter()->unique()->values(); @endphp
-@include('includes.masthead', ['title' => 'Our work', 'eyebrow' => 'Portfolio', 'intro' => 'Architecture, interiors and construction — projects delivered by the studio.', 'crumbs' => [['Our Work', null]]])
+@php $hf = $works->firstWhere('featured',1) ?: $works->first(); $cats = $works->pluck('sub_title')->filter()->unique()->values(); @endphp
+@include('includes.masthead', ['title' => 'Our work', 'eyebrow' => 'Portfolio', 'image' => $hf ? Voyager::image($hf->image_full ?: $hf->image) : null, 'intro' => 'Architecture, interiors and construction — projects delivered by the studio.', 'crumbs' => [['Our Work', null]]])
 
 <section class="section" style="padding-top:0">
     <div class="wrap">

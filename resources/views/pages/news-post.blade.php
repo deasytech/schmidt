@@ -2,11 +2,11 @@
 @section('title', $post->seo_title ?: $post->title)
 @section('description', $post->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($post->excerpt ?: $post->body), 160))
 @section('og_image', Voyager::image($post->image))
+@section('overlay', '1')
 @section('content')
-@include('includes.masthead', ['title' => $post->title, 'eyebrow' => $post->created_at->format('d F Y'), 'crumbs' => [['News', route('latest-news')], [\Illuminate\Support\Str::limit($post->title, 40), null]]])
+@include('includes.masthead', ['title' => $post->title, 'eyebrow' => $post->created_at->format('d F Y'), 'image' => Voyager::image($post->image), 'crumbs' => [['News', route('latest-news')], [\Illuminate\Support\Str::limit($post->title, 40), null]]])
 <section class="section" style="padding-top:0">
     <div class="wrap">
-        @if ($post->image)<div class="ph r-169 rv" style="margin-bottom:clamp(40px,6vw,88px)"><img src="{{ Voyager::image($post->image) }}" alt="{{ $post->title }}" fetchpriority="high"></div>@endif
         <article class="article rv">
             @if ($post->excerpt)<p class="lead">{{ $post->excerpt }}</p>@endif
             <div class="prose">{!! $post->body !!}</div>
