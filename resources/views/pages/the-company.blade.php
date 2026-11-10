@@ -4,7 +4,7 @@
 @section('og_image', Voyager::image($page->image))
 @section('overlay', '1')
 @section('content')
-@include('includes.masthead', ['title' => $page->title, 'eyebrow' => $page->excerpt, 'image' => Voyager::image($page->image), 'crumbs' => [['The Company', null]]])
+@include('includes.masthead', ['title' => $page->title, 'eyebrow' => $page->excerpt, 'imagePath' => $page->image, 'crumbs' => [['The Company', null]]])
 
 <section class="section">
     <div class="wrap split">
@@ -17,11 +17,11 @@
 <section class="section {{ $loop->odd ? 'section--stone' : '' }}">
     <div class="wrap split {{ $loop->odd ? '' : 'split--rev' }}">
         @if ($loop->odd)
-            @if ($item->image)<div class="ph r-32 rv"><img src="{{ Voyager::image($item->image) }}" alt="{{ $item->title }}" loading="lazy"></div>@endif
+            @if ($item->image)<div class="ph r-32 rv"><img src="{{ Img::src($item->image, 800) }}" @if ($ss = Img::srcset($item->image)) srcset="{{ $ss }}" sizes="(min-width:900px) 50vw, 100vw" @endif alt="{{ $item->title }}" loading="lazy" decoding="async"></div>@endif
             <div class="rv"><span class="eyebrow">0{{ $loop->iteration }}</span><h2 class="h-lg" style="margin-bottom:24px">{{ $item->title }}</h2><div class="prose">{!! $item->body !!}</div></div>
         @else
             <div class="rv"><span class="eyebrow">0{{ $loop->iteration }}</span><h2 class="h-lg" style="margin-bottom:24px">{{ $item->title }}</h2><div class="prose">{!! $item->body !!}</div></div>
-            @if ($item->image)<div class="ph r-32 rv"><img src="{{ Voyager::image($item->image) }}" alt="{{ $item->title }}" loading="lazy"></div>@endif
+            @if ($item->image)<div class="ph r-32 rv"><img src="{{ Img::src($item->image, 800) }}" @if ($ss = Img::srcset($item->image)) srcset="{{ $ss }}" sizes="(min-width:900px) 50vw, 100vw" @endif alt="{{ $item->title }}" loading="lazy" decoding="async"></div>@endif
         @endif
     </div>
 </section>

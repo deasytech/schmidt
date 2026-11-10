@@ -4,7 +4,7 @@
 @section('og_image', Voyager::image($post->image))
 @section('overlay', '1')
 @section('content')
-@include('includes.masthead', ['title' => $post->title, 'eyebrow' => $post->created_at->format('d F Y'), 'image' => Voyager::image($post->image), 'crumbs' => [['News', route('latest-news')], [\Illuminate\Support\Str::limit($post->title, 40), null]]])
+@include('includes.masthead', ['title' => $post->title, 'eyebrow' => $post->created_at->format('d F Y'), 'imagePath' => $post->image, 'crumbs' => [['News', route('latest-news')], [\Illuminate\Support\Str::limit($post->title, 40), null]]])
 <section class="section" style="padding-top:0">
     <div class="wrap">
         <article class="article rv">

@@ -3,7 +3,7 @@
 @section('description', 'Articles and updates from ' . setting('site.title') . '.')
 @section('overlay', '1')
 @section('content')
-@include('includes.masthead', ['title' => 'News', 'eyebrow' => 'Insights', 'image' => asset('img/the-company.jpg'), 'intro' => 'Articles and updates from the studio.', 'crumbs' => [['News', null]]])
+@include('includes.masthead', ['title' => 'News', 'eyebrow' => 'Insights', 'imagePath' => 'public:img/the-company.jpg', 'intro' => 'Articles and updates from the studio.', 'crumbs' => [['News', null]]])
 <section class="section" style="padding-top:0">
     <div class="wrap">
         @if ($news->count())

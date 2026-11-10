@@ -10,7 +10,7 @@
 
 @if ($hero)
 <section class="hero">
-    <div class="hero__img"><img src="{{ Voyager::image($hero->image) }}" alt="{{ $hero->sub_title }}" fetchpriority="high"></div>
+    <div class="hero__img"><img src="{{ Img::src($hero->image, 1800) }}" @if ($ss = Img::srcset($hero->image)) srcset="{{ $ss }}" sizes="100vw" @endif alt="{{ $hero->sub_title }}" fetchpriority="high"></div>
     <div class="wrap hero__in">
         @if ($hero->title)<span class="eyebrow">{{ $hero->title }}</span>@endif
         <h1 class="h-xl">{{ $hero->sub_title }}</h1>
@@ -31,7 +31,7 @@
             <a class="link" href="{{ route('our-works') }}">View all projects</a>
         </div>
         <div class="tiles">
-            @foreach ($projects as $work) @include('includes.tile', ['work' => $work]) @endforeach
+            @foreach ($projects as $work) @include('includes.tile', ['work' => $work, 'wide' => $loop->index % 3 === 0]) @endforeach
         </div>
     </div>
 </section>
@@ -40,7 +40,7 @@
 @if ($page)
 <section class="section section--stone">
     <div class="wrap split">
-        @if ($page->image)<div class="ph r-45 rv"><img src="{{ Voyager::image($page->image) }}" alt="{{ setting('site.title') }}" loading="lazy"></div>@endif
+        @if ($page->image)<div class="ph r-45 rv"><img src="{{ Img::src($page->image, 800) }}" @if ($ss = Img::srcset($page->image)) srcset="{{ $ss }}" sizes="(min-width:900px) 40vw, 100vw" @endif alt="{{ setting('site.title') }}" loading="lazy" decoding="async"></div>@endif
         <div class="rv">
             <span class="eyebrow">{{ $page->excerpt }}</span>
             <h2 class="h-lg" style="margin-bottom:32px">{{ $page->title }}</h2>
@@ -77,7 +77,7 @@
             <a class="link" href="{{ route('our-works') }}">View all projects</a>
         </div>
         <div class="tiles">
-            @foreach ($more_projects as $work) @include('includes.tile', ['work' => $work]) @endforeach
+            @foreach ($more_projects as $work) @include('includes.tile', ['work' => $work, 'wide' => $loop->index % 3 === 0]) @endforeach
         </div>
     </div>
 </section>
@@ -115,7 +115,7 @@
         <div class="sec-head rv"><div><span class="eyebrow">Spotlight</span><h2 class="h-lg">Now showing</h2></div></div>
         <div class="spot" style="--n:{{ min($spot->count(), 3) }}">
             @foreach ($spot as $s)
-                <figure class="rv"><div class="ph r-45"><img src="{{ Voyager::image($s->image) }}" alt="{{ $s->title }}" loading="lazy"></div>
+                <figure class="rv"><div class="ph r-45"><img src="{{ Img::src($s->image, 800) }}" @if ($ss = Img::srcset($s->image)) srcset="{{ $ss }}" sizes="(min-width:800px) 33vw, 100vw" @endif alt="{{ $s->title }}" loading="lazy" decoding="async"></div>
                     <figcaption><b>{{ $s->title }}</b><span>{{ $s->sub_title }}</span></figcaption></figure>
             @endforeach
         </div>

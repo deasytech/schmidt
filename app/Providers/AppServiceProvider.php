@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        class_alias(\App\Support\Img::class, 'Img'); // short alias for Blade views
     }
 
     /**

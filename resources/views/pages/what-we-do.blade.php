@@ -4,7 +4,7 @@
 @section('og_image', Voyager::image($page->image))
 @section('overlay', '1')
 @section('content')
-@include('includes.masthead', ['title' => $page->title, 'eyebrow' => 'Services', 'intro' => trim(strip_tags($page->body)) ?: null, 'image' => asset('img/what-we-do.jpg'), 'crumbs' => [['What We Do', null]]])
+@include('includes.masthead', ['title' => $page->title, 'eyebrow' => 'Services', 'intro' => trim(strip_tags($page->body)) ?: null, 'imagePath' => 'public:img/what-we-do.jpg', 'crumbs' => [['What We Do', null]]])
 <section class="section">
     <div class="wrap">
         <div class="svc">

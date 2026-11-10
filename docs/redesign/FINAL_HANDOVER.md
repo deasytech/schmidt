@@ -42,7 +42,7 @@ Tokens in `:root` (ivory/charcoal/stone/bronze, Jost + Inter, spacing, grid gutt
 - Keyboard and screen-reader testing of the drawer, filters and lightbox in a real browser.
 - Contact email delivery; Google Map embed rendering (lazy iframe did not load in headless capture).
 - Admin-edit-to-frontend round trip; Filament/Voyager login regression test.
-- Responsive image variants (none exist in the media pipeline; images are lazy-loaded at original size — large originals will hurt mobile performance). Recommended follow-up: generate resized variants / WebP.
+- Responsive images are now generated (see Section 13), but Lighthouse / real-network timings are still not measured.
 - Sitemap, structured data, OG images beyond the basics already in `head.blade.php`.
 
 ## 10. Content and asset gaps (client action)
@@ -60,3 +60,9 @@ Copy changes for items 2–4; whether to add individual service pages; approval 
 
 ## 12. Deployment and rollback
 Do not deploy until Section 9 is addressed. Deploy by merging `dev`; no migrations, no `composer`/`npm` steps. Run `php artisan view:clear`. Ensure `php artisan storage:link` exists on the server. Rollback: revert the merge (old CSS/JS assets are still in the repo).
+
+## 13. Image optimisation (added)
+- `app/Support/Img.php` (aliased `Img`): creates resized WebP variants on first request into `storage/app/public/_cache/<width>/...`; regenerates when the original is newer; atomic writes; returns the original URL on any failure. No new dependency (uses Intervention Image already installed with Voyager, and PHP GD with WebP).
+- `php artisan images:optimize` pre-generates variants. **Run it after deploy** (and ensure the web user can write to `storage/app/public`) so the first visitor does not pay the generation cost. If the production PHP lacks GD WebP support, pages silently serve the original images.
+- Originals are never modified or deleted. `_cache` can be deleted at any time; it is rebuilt on demand.
+- Local measurement of default `src` weight: home 7.6 MB -> 1.3 MB; /our-works 5.4 -> 2.2 MB; project detail 2.4 -> 0.8 MB.

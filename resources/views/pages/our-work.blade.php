@@ -5,7 +5,7 @@
 @section('overlay', '1')
 @section('content')
 @php $images = array_values(array_filter((array) json_decode($work->images, true), fn ($i) => is_string($i) && $i !== '')); @endphp
-@include('includes.masthead', ['title' => $work->title, 'eyebrow' => $work->sub_title, 'image' => Voyager::image($work->image_full ?: $work->image), 'crumbs' => [['Our Work', route('our-works')], [$work->title, null]]])
+@include('includes.masthead', ['title' => $work->title, 'eyebrow' => $work->sub_title, 'imagePath' => $work->image_full ?: $work->image, 'crumbs' => [['Our Work', route('our-works')], [$work->title, null]]])
 
 <section class="section">
     <div class="wrap split">
@@ -24,7 +24,7 @@
     <div class="wrap">
         <div class="gallery" data-lightbox>
             @foreach ($images as $i => $image)
-                <a class="rv" href="{{ Voyager::image($image) }}"><img src="{{ Voyager::image($image) }}" alt="{{ $work->title }} — image {{ $i + 1 }}" loading="{{ $i < 1 ? 'eager' : 'lazy' }}" decoding="async"></a>
+                <a class="rv" href="{{ Img::src($image, 1800) }}"><img src="{{ Img::src($image, 1200) }}" @if ($ss = Img::srcset($image)) srcset="{{ $ss }}" sizes="(min-width:800px) 50vw, 100vw" @endif alt="{{ $work->title }} — image {{ $i + 1 }}" loading="{{ $i < 1 ? 'eager' : 'lazy' }}" decoding="async"></a>
             @endforeach
         </div>
     </div>

@@ -3,7 +3,7 @@
 @section('description', 'Contact ' . setting('site.title') . ' to discuss your architecture, interior design or construction project.')
 @section('overlay', '1')
 @section('content')
-@include('includes.masthead', ['title' => 'Let’s talk', 'eyebrow' => 'Contact', 'image' => asset('img/2.jpg'), 'intro' => 'Tell us about your project and we will be in touch.', 'crumbs' => [['Contact', null]]])
+@include('includes.masthead', ['title' => 'Let’s talk', 'eyebrow' => 'Contact', 'imagePath' => 'public:img/2.jpg', 'intro' => 'Tell us about your project and we will be in touch.', 'crumbs' => [['Contact', null]]])
 <section class="section" style="padding-top:0">
     <div class="wrap">
         <div class="contact-grid">
