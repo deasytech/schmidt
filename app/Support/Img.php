@@ -35,6 +35,11 @@ class Img
         return strpos($path, 'public:') === 0;
     }
 
+    public static function exists(?string $path): bool
+    {
+        return $path && self::sourceExists($path);
+    }
+
     private static function sourceExists(string $path): bool
     {
         return self::isStatic($path) ? is_file(public_path(substr($path, 7))) : self::disk()->exists($path);

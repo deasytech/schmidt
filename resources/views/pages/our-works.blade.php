@@ -3,7 +3,7 @@
 @section('description', 'Selected architecture, interior design and construction projects by ' . setting('site.title') . '.')
 @section('overlay', '1')
 @section('content')
-@php $hf = $works->firstWhere('featured',1) ?: $works->first(); $cats = $works->pluck('sub_title')->filter()->unique()->values(); @endphp
+@php $hf = $works->firstWhere('featured',1) ?: $works->first(); $titles = $works->pluck('title')->all(); $cats = $works->pluck('sub_title')->filter(fn ($c) => !in_array($c, $titles, true))->unique()->values(); @endphp
 @include('includes.masthead', ['title' => 'Our work', 'eyebrow' => 'Portfolio', 'imagePath' => $hf ? ($hf->image_full ?: $hf->image) : null, 'intro' => 'Architecture, interiors and construction — projects delivered by the studio.', 'crumbs' => [['Our Work', null]]])
 
 <section class="section" style="padding-top:0">
