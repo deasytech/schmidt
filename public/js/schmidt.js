@@ -12,7 +12,9 @@
   var top = d.querySelector('.totop');
   if (top) {
     top.hidden = false;
-    window.addEventListener('scroll', function () { top.classList.toggle('is-on', window.scrollY > 900); }, { passive: true });
+    var syncTop = function () { top.classList.toggle('is-on', window.scrollY > 900); };
+    syncTop(); // correct on load/restored scroll; CSS keeps it unfocusable (visibility:hidden) while off
+    window.addEventListener('scroll', syncTop, { passive: true });
     top.addEventListener('click', function () { window.scrollTo({ top: 0 }); var m = d.getElementById('main'); if (m) { m.setAttribute('tabindex', '-1'); m.focus({ preventScroll: true }); } });
   }
 

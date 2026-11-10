@@ -1,9 +1,9 @@
 @extends('layouts.default')
 @section('title', 'Our Work')
 @section('description', 'Selected architecture, interior design and construction projects by ' . setting('site.title') . '.')
-@section('overlay', '1')
+@if ($works->count())@section('overlay', '1')@endif
 @section('content')
-@php $hf = $works->firstWhere('featured',1) ?: $works->first(); $titles = $works->pluck('title')->all(); $cats = $works->pluck('sub_title')->filter(fn ($c) => !in_array($c, $titles, true))->unique()->values(); @endphp
+@php $hf = $works->firstWhere('featured',1) ?: $works->first(); $real = $works->filter(fn ($w) => $w->sub_title && $w->sub_title !== $w->title); $cats = $real->pluck('sub_title')->unique()->values(); @endphp
 @include('includes.masthead', ['title' => 'Our work', 'eyebrow' => 'Portfolio', 'imagePath' => $hf ? ($hf->image_full ?: $hf->image) : null, 'intro' => 'Architecture, interiors and construction — projects delivered by the studio.', 'crumbs' => [['Our Work', null]]])
 
 <section class="section" style="padding-top:0">
@@ -12,7 +12,7 @@
             @if ($cats->count() > 1)
             <div class="filters" role="group" aria-label="Filter projects by category">
                 <button class="chip" type="button" data-filter="*" aria-pressed="true">All <span class="chip__n">{{ $works->count() }}</span></button>
-                @foreach ($cats as $c)<button class="chip" type="button" data-filter="{{ $c }}" aria-pressed="false">{{ $c }} <span class="chip__n">{{ $works->where('sub_title', $c)->count() }}</span></button>@endforeach
+                @foreach ($cats as $c)<button class="chip" type="button" data-filter="{{ $c }}" aria-pressed="false">{{ $c }} <span class="chip__n">{{ $real->where('sub_title', $c)->count() }}</span></button>@endforeach
             </div>
             <p id="filter-status" class="muted" role="status" aria-live="polite" style="position:absolute;left:-9999px"></p>
             @endif

@@ -70,7 +70,8 @@ class Img
      */
     public static function variant(string $path, int $width): ?string
     {
-        if (!self::resizable($path) || !function_exists('imagewebp')) {
+        // Reject traversal so the cache target can never escape _cache/.
+        if (preg_match('#(^|[\\/])\.\.([\\/]|$)#', $path) || !self::resizable($path) || !function_exists('imagewebp')) {
             return null;
         }
         $disk = self::disk();
