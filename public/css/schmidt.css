@@ -215,7 +215,7 @@ body.sch{margin:0;background:var(--ivory);color:var(--ink);font:400 16px/1.7 var
 .field .err{display:block;color:#a3392d;font-size:14px;margin-top:6px}
 .notice{padding:18px 22px;background:var(--stone);border-left:3px solid var(--bronze);margin-bottom:32px}
 .hp{position:absolute;left:-9999px;height:0;overflow:hidden}
-.map{margin-top:clamp(56px,8vw,112px);aspect-ratio:21/9;min-height:320px;background:var(--stone)}
+.map{margin-top:clamp(56px,8vw,112px);height:clamp(320px,38vw,560px);width:100%;background:var(--stone)}
 .map iframe{width:100%;height:100%;border:0;display:block;filter:grayscale(.6)}
 
 /* Clients */

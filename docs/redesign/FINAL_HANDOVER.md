@@ -32,10 +32,11 @@ Tokens in `:root` (ivory/charcoal/stone/bronze, Jost + Inter, spacing, grid gutt
 ## 8. Testing performed
 - All public routes return 200 locally; inactive project and unknown URL return 404.
 - Visual review in headless Chrome at 1440 px and 500 px (headless Chrome cannot render below ~500 px).
+- Programmatic overflow check, 10 routes x 6 widths (375/390/430/768/1440/1920): no horizontal overflow after fixing the contact-page map.
 - Code review findings addressed (drawer ARIA sync, lightbox focus trap, null guards).
 
 ## 9. NOT VERIFIED / not done
-- Viewports 375, 390, 430, 768, 1920; real-device mobile testing.
+- Visual review at 375, 390, 430, 768 and 1920 px, and real-device testing. (Horizontal-overflow and broken-image checks were run at these widths and pass.)
 - Baron Architecture mobile reference inspection (never performed).
 - Lighthouse / Core Web Vitals baseline and post-redesign results.
 - Keyboard and screen-reader testing of the drawer, filters and lightbox in a real browser.
