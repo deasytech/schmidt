@@ -1,23 +1,16 @@
 <!doctype html>
-<html>
-
+<html lang="en">
 <head>
     @include('includes.head')
 </head>
-
-<body>
-    <div class="progress-wrap cursor-pointer">
-        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
-            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
-        </svg>
-    </div>
-
-    <div class="mouse-cursor cursor-outer"></div>
-    <div class="mouse-cursor cursor-inner"></div>
-
+<body class="sch">
+    <a class="skip" href="#main">Skip to content</a>
     @include('includes.header')
-    @yield('content')
+    <main id="main">
+        @yield('content')
+    </main>
     @include('includes.footer')
+    <script src="{{ asset('js/schmidt.js') }}?v=1" defer></script>
+    @stack('scripts')
 </body>
-
 </html>

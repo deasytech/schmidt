@@ -1,47 +1,21 @@
 @extends('layouts.default')
-@section('css')
-@endsection
+@section('title', $page->title)
+@section('description', strip_tags(setting('site.home_service_excerpt') ?: setting('site.description')))
+@section('og_image', Voyager::image($page->image))
 @section('content')
-
-    <header class="pages-header bg-img valign parallaxie" data-background="{{ asset('img/what-we-do.jpg') }}"
-        data-overlay-dark="7">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="cont text-center">
-                        <h1>{{ $page->title }}</h1>
-                        <div class="path">
-                            <a href="{{ route('home') }}">Home</a><span>/</span><a href="{{ route($page->slug) }}"
-                                class="active">{{ $page->title }}</a>
-                        </div>
-                    </div>
+@include('includes.masthead', ['title' => $page->title, 'eyebrow' => 'Services', 'intro' => trim(strip_tags($page->body)) ?: null, 'image' => Voyager::image($page->image), 'crumbs' => [['What We Do', null]]])
+<section class="section">
+    <div class="wrap">
+        <div class="svc">
+            @foreach ($modules as $item)
+                <div class="svc__row rv">
+                    <span class="svc__n">{{ $item->sub_title }}</span>
+                    <h2 class="svc__t">{{ $item->title }}</h2>
+                    @if ($item->excerpt)<p class="svc__d">{{ $item->excerpt }}</p>@endif
                 </div>
-            </div>
+            @endforeach
         </div>
-    </header>
-
-    <section class="services section-padding bg-gray">
-        <div class="container">
-            <div class="section-head text-center">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6 col-md-8 col-sm-10">
-                        <h6 class="custom-font wow fadeInDown" data-wow-delay=".3s">{!! $page->body !!}</h6>
-                        <h4 class="playfont wow flipInX" data-wow-delay=".5s">{{ $page->title }}</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="row bord-box bg-img wow fadeInUp" data-wow-delay=".3s"
-                data-background=".{{ Voyager::image($page->image) }}">
-                @foreach ($modules as $item)
-                    <div class="col-lg-3 col-md-6 item-bx">
-                        <h2 class="custom-font numb">{{ $item->sub_title }}</h2>
-                        <h6 class="mb-20 h6-sm">{{ $item->title }}</h6>
-                        <p class="text-p-sm">{{ $item->excerpt }}</p>
-                        <a href="#" class="more custom-font mt-30">Read More</a>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
+    </div>
+</section>
+@include('includes.cta')
 @stop

@@ -1,49 +1,26 @@
 @extends('layouts.default')
-@section('css')
-@endsection
+@section('title', 'Our Work')
+@section('description', 'Selected architecture, interior design and construction projects by ' . setting('site.title') . '.')
 @section('content')
+@php $cats = $works->pluck('sub_title')->filter()->unique()->values(); @endphp
+@include('includes.masthead', ['title' => 'Our work', 'eyebrow' => 'Portfolio', 'intro' => 'Architecture, interiors and construction — projects delivered by the studio.', 'crumbs' => [['Our Work', null]]])
 
-    <header class="pages-header bg-img valign parallaxie" data-background="{{ asset('img/what-we-do.jpg') }}"
-        data-overlay-dark="7">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="cont text-center">
-                        <h1>Our Work</h1>
-                        <div class="path">
-                            <a href="{{ route('home') }}">Home</a><span>/</span><a href="{{ route('our-works') }}"
-                                class="active">Our Works</a>
-                        </div>
-                    </div>
-                </div>
+<section class="section" style="padding-top:0">
+    <div class="wrap">
+        @if ($works->count())
+            @if ($cats->count() > 1)
+            <div class="filters" role="group" aria-label="Filter projects by category">
+                <button class="chip" type="button" data-filter="*" aria-pressed="true">All</button>
+                @foreach ($cats as $c)<button class="chip" type="button" data-filter="{{ $c }}" aria-pressed="false">{{ $c }}</button>@endforeach
             </div>
-        </div>
-    </header>
-
-    <section class="portfolio section-padding">
-        <div class="container">
-            <div class="row">
-                <!-- gallery -->
-                <div class="gallery twsty inf-lit full-width">
-                    @foreach ($works as $work)
-                        <!-- gallery item -->
-                        <div class="items {{ $work->group }} three-column mt-50">
-                            <div class="item-img bg-img" data-background="{{ Voyager::image($work->image) }}">
-                                <a href="{{ route('our-work', $work->id) }}">
-                                    <div class="item-img-overlay"></div>
-                                </a>
-                            </div>
-                            <div class="info mt-10">
-                                <h5>{{ $work->title }}</h5>
-                                {{-- <span>{{ $work->sub_title }}</span> --}}
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section>
-
-    @include('includes.clients')
-
+            <p id="filter-status" class="muted" role="status" aria-live="polite" style="position:absolute;left:-9999px"></p>
+            @endif
+            <div class="tiles">@foreach ($works as $work) @include('includes.tile', ['work' => $work]) @endforeach</div>
+        @else
+            <div class="empty"><h2 class="h-md">Projects are coming soon.</h2><p class="muted">Please check back shortly.</p></div>
+        @endif
+    </div>
+</section>
+@include('includes.clients')
+@include('includes.cta')
 @stop
