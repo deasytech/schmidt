@@ -40,8 +40,18 @@ class Img
         return $path && self::sourceExists($path);
     }
 
+    /** True when the path contains a parent-directory segment (after normalising separators). */
+    private static function hasTraversal(string $path): bool
+    {
+        $p = self::isStatic($path) ? substr($path, 7) : $path;
+        return (bool) preg_match('#(^|/)\.\.(/|$)#', str_replace('\\', '/', $p));
+    }
+
     private static function sourceExists(string $path): bool
     {
+        if (self::hasTraversal($path)) {
+            return false;
+        }
         return self::isStatic($path) ? is_file(public_path(substr($path, 7))) : self::disk()->exists($path);
     }
 
@@ -71,7 +81,7 @@ class Img
     public static function variant(string $path, int $width): ?string
     {
         // Reject traversal so the cache target can never escape _cache/.
-        if (preg_match('#(^|[\\/])\.\.([\\/]|$)#', $path) || !self::resizable($path) || !function_exists('imagewebp')) {
+        if (self::hasTraversal($path) || !self::resizable($path) || !function_exists('imagewebp')) {
             return null;
         }
         $disk = self::disk();

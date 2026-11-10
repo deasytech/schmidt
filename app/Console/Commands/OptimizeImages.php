@@ -23,6 +23,19 @@ class OptimizeImages extends Command
                 Img::variant($file, $w) && $n++;
             }
         }
+        // Static images under public/img are referenced as "public:img/...".
+        if (is_dir(public_path('img'))) {
+            $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(public_path('img'), \FilesystemIterator::SKIP_DOTS));
+            foreach ($it as $f) {
+                if (!$f->isFile() || !preg_match('/\.(jpe?g|png)$/i', $f->getFilename())) {
+                    continue;
+                }
+                $rel = 'public:img/' . str_replace('\\', '/', substr($f->getPathname(), strlen(public_path('img')) + 1));
+                foreach (Img::WIDTHS as $w) {
+                    Img::variant($rel, $w) && $n++;
+                }
+            }
+        }
         $this->info("Variants available: {$n}");
         return 0;
     }

@@ -22,7 +22,7 @@ class PageController extends Controller
         $page = Page::where('slug', '=', 'who-we-are')->first();
         $what_we_do = Page::where('slug', '=', 'what-we-do')->first();
         $what_we_do_modules = PageModule::where('page_id', $what_we_do->id)->orderBy('sub_title')->get();
-        $projects = Project::where('featured', 1)->get();
+        $projects = Project::where('status', 1)->where('featured', 1)->get();
         $how_we_do_it = Page::where('slug', '=', 'how-we-do-it')->first();
         $how_we_do_it_modules = PageModule::where('page_id', $how_we_do_it->id)->get();
         $latest_news = Post::published()->where('featured', 1)->get();
