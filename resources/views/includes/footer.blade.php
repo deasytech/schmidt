@@ -1,6 +1,5 @@
 <footer class="ftr">
     <div class="wrap">
-        <a class="ftr__big" href="{{ route('contact-us') }}">Let’s discuss your project →</a>
         <div class="ftr__grid">
             <div class="ftr__about">
                 <h4>{{ setting('site.title') }}</h4>

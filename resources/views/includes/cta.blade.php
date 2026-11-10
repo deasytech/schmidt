@@ -1,4 +1,4 @@
-<section class="section section--ink cta">
+<section class="section cta">
     <div class="wrap split">
         <div><span class="eyebrow">Start a conversation</span><h2 class="h-lg">{{ $heading ?? 'Have a project in mind?' }}</h2></div>
         <div>

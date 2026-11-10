@@ -271,3 +271,11 @@ body.sch{margin:0;background:var(--ivory);color:var(--ink);font:400 16px/1.7 var
 .hdr--over:not(.is-solid) .nav a,.hdr--over:not(.is-solid) .menu-btn{text-shadow:0 1px 12px rgba(0,0,0,.4)}
 .filters{margin-bottom:clamp(28px,4vw,48px)}
 .masthead--img .masthead__bg img{object-position:50% 22%}
+
+/* CTA band: distinct from the charcoal footer */
+.cta{background:#6b5a48;color:var(--ivory);position:relative;overflow:hidden}
+.cta .eyebrow{color:rgba(246,245,241,.8)}
+.cta .lead{color:rgba(246,245,241,.92)}
+.cta .btn--light:hover{background:transparent;color:var(--ivory)}
+.cta::before{content:"";position:absolute;right:-8%;top:-30%;width:50vw;height:160%;border:1px solid rgba(246,245,241,.14);transform:skewX(-14deg);pointer-events:none}
+.ftr{padding-top:clamp(56px,7vw,96px)}
