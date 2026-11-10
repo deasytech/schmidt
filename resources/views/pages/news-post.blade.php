@@ -1,8 +1,8 @@
 @extends('layouts.default')
 @section('title', $post->seo_title ?: $post->title)
 @section('description', $post->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($post->excerpt ?: $post->body), 160))
-@section('og_image', Voyager::image($post->image))
-@section('overlay', '1')
+@section('og_image', $post->image ? Voyager::image($post->image) : '')
+@section('overlay', Img::exists($post->image) ? '1' : '')
 @section('content')
 @include('includes.masthead', ['title' => $post->title, 'eyebrow' => $post->created_at->format('d F Y'), 'imagePath' => $post->image, 'crumbs' => [['News', route('latest-news')], [\Illuminate\Support\Str::limit($post->title, 40), null]]])
 <section class="section" style="padding-top:0">

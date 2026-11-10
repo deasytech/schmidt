@@ -1,8 +1,8 @@
 @extends('layouts.default')
 @section('title', $page->title)
 @section('description', strip_tags($page->excerpt ?: setting('site.description')))
-@section('og_image', Voyager::image($page->image))
-@section('overlay', '1')
+@section('og_image', $page->image ? Voyager::image($page->image) : '')
+@section('overlay', Img::exists($page->image) ? '1' : '')
 @section('content')
 @include('includes.masthead', ['title' => $page->title, 'eyebrow' => $page->excerpt, 'imagePath' => $page->image, 'crumbs' => [['The Company', null]]])
 
@@ -27,9 +27,9 @@
 </section>
 @endforeach
 
-@if ($site['years'])
+@if ($site['years'] || setting('site.projects_completed') || setting('site.satisfied_clients') || setting('site.awards_won'))
 <section class="section section--ink"><div class="wrap"><div class="metrics">
-    <div class="metric rv"><b>{{ $site['years'] }}</b><span>Years of experience</span></div>
+    @if ($site['years'])<div class="metric rv"><b>{{ $site['years'] }}</b><span>Years of experience</span></div>@endif
     @if (setting('site.projects_completed'))<div class="metric rv"><b>{{ setting('site.projects_completed') }}</b><span>Projects completed</span></div>@endif
     @if (setting('site.satisfied_clients'))<div class="metric rv"><b>{{ setting('site.satisfied_clients') }}</b><span>Satisfied clients</span></div>@endif
     @if (setting('site.awards_won'))<div class="metric rv"><b>{{ setting('site.awards_won') }}</b><span>Awards won</span></div>@endif

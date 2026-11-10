@@ -1,10 +1,10 @@
 @extends('layouts.default')
-@section('overlay', '1')
 @section('description', strip_tags(optional($page)->excerpt ?: setting('site.description')))
 @php
     $hero = $slides->first();
     $spot = $slides->skip(1)->filter(fn ($s) => $hero && $s->title !== $hero->title);
 @endphp
+@if ($hero && Img::exists($hero->image))@section('overlay', '1')@endif
 @section('og_image', $hero ? Voyager::image($hero->image) : '')
 @if ($hero && ($ss = Img::srcset($hero->image)))
 @section('preload')<link rel="preload" as="image" imagesrcset="{{ $ss }}" imagesizes="(orientation:portrait) 180vh, 100vw" fetchpriority="high">@endsection

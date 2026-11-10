@@ -2,7 +2,7 @@
 @section('title', $work->title)
 @section('description', \Illuminate\Support\Str::limit(strip_tags($work->body), 160))
 @section('og_image', Voyager::image($work->image_full ?: $work->image))
-@section('overlay', '1')
+@section('overlay', Img::exists($work->image_full ?: $work->image) ? '1' : '')
 @section('content')
 @php $images = array_values(array_filter((array) json_decode($work->images, true), fn ($i) => is_string($i) && $i !== '')); @endphp
 @include('includes.masthead', ['title' => $work->title, 'eyebrow' => $work->sub_title, 'imagePath' => $work->image_full ?: $work->image, 'crumbs' => [['Our Work', route('our-works')], [$work->title, null]]])
@@ -44,7 +44,7 @@
 <section class="section section--stone">
     <div class="wrap">
         <div class="sec-head"><div><span class="eyebrow">Related</span><h2 class="h-lg">More projects</h2></div><a class="link" href="{{ route('our-works') }}">View all</a></div>
-        <div class="tiles">@foreach ($related as $w) @include('includes.tile', ['work' => $w]) @endforeach</div>
+        <div class="tiles">@foreach ($related as $w) @include('includes.tile', ['work' => $w, 'wide' => $loop->index % 3 === 0]) @endforeach</div>
     </div>
 </section>
 @endif

@@ -68,6 +68,6 @@ Do not deploy until Section 9 is addressed. Deploy by merging `dev`; no migratio
 
 ## 13. Image optimisation (added)
 - `app/Support/Img.php` (aliased `Img`): creates resized WebP variants on first request into `storage/app/public/_cache/<width>/...`; regenerates when the original is newer; atomic writes; returns the original URL on any failure. No new dependency (uses Intervention Image already installed with Voyager, and PHP GD with WebP).
-- `php artisan images:optimize` pre-generates variants. **Run it after deploy** (and ensure the web user can write to `storage/app/public`) so the first visitor does not pay the generation cost. If the production PHP lacks GD WebP support, pages silently serve the original images.
+- `php artisan images:optimize` pre-generates variants. **Run it after deploy** (run it as the web user, or give the web user write access to the whole `storage/app/public/_cache` tree, not just its root, so variants can be regenerated) so the first visitor does not pay the generation cost. If the production PHP lacks GD WebP support, pages silently serve the original images.
 - Originals are never modified or deleted. `_cache` can be deleted at any time; it is rebuilt on demand.
 - Local measurement of default `src` weight: home 7.6 MB -> 1.3 MB; /our-works 5.4 -> 2.2 MB; project detail 2.4 -> 0.8 MB.

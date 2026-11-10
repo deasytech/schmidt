@@ -14,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        class_alias(\App\Support\Img::class, 'Img'); // short alias for Blade views
+        if (!class_exists('Img', false)) {
+            class_alias(\App\Support\Img::class, 'Img'); // short alias for Blade views
+        }
     }
 
     /**
@@ -35,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
             foreach (['facebook', 'twitter', 'instagram'] as $net) {
                 $url = trim((string) setting('site.' . $net));
                 $path = trim((string) parse_url($url, PHP_URL_PATH), '/');
-                if ($url !== '' && $path !== '') { // bare domains are placeholders, hide them
+                if ($url !== '' && $path !== '' && in_array(strtolower((string) parse_url($url, PHP_URL_SCHEME)), ['http', 'https'], true)) { // bare domains and non-http(s) schemes are hidden
                     $social[$net] = $url;
                 }
             }
