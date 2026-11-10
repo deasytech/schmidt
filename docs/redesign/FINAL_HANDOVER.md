@@ -33,18 +33,20 @@ Tokens in `:root` (ivory/charcoal/stone/bronze, Jost + Inter, spacing, grid gutt
 - All public routes return 200 locally; inactive project and unknown URL return 404.
 - Visual review in headless Chrome at 1440 px and 500 px (headless Chrome cannot render below ~500 px).
 - Lighthouse mobile (local, simulated throttling): see PROGRESS.md. Home 99/100/82/100 (perf/a11y/best-practices/SEO), works 85/100, project 94/100; baseline `main` /our-works was 56/81. Contact, news, team, company, services not re-run after final fixes.
+- Emulated-mobile audit (puppeteer) across 10 routes x 5 widths clean; touch targets >= 44 px after fixes.
+- Content edits round-trip to the frontend immediately (tested on a throwaway DB copy).
 - Scripted interaction tests (menu, filters, lightbox, contact links): 23/23 pass.
 - Mail class builds and escapes input via the log driver.
 - Programmatic overflow check, 10 routes x 6 widths (375/390/430/768/1440/1920): no horizontal overflow after fixing the contact-page map.
 - Code review findings addressed (drawer ARIA sync, lightbox focus trap, null guards).
 
 ## 9. NOT VERIFIED / not done
-- Visual review at 375, 390, 430, 768 and 1920 px, and real-device testing. (Horizontal-overflow and broken-image checks were run at these widths and pass.)
-- Baron Architecture mobile reference inspection (never performed).
+- Real-device testing (emulated-device checks at 375/390/430/768/1920 pass: no overflow, console errors or broken images; hero/home/works/project/contact reviewed by eye at phone sizes).
+- Baron's mobile menu (its toggle could not be found automatically); the rest of its mobile site was inspected, see PROGRESS.md.
 - Lighthouse on production hosting (HTTPS/compression/CDN change the numbers); no baseline for the old homepage (it failed to paint).
 - Human keyboard and screen-reader testing (only scripted events were run).
 - Real SMTP delivery of the contact email; Google Map embed rendering (lazy iframe did not load in headless capture).
-- Admin-edit-to-frontend round trip (would modify live data) and a full Voyager editing regression; only the login page response was checked.
+- Editing through the Voyager admin UI itself (the data round trip was verified on a DB copy via SQL; the login page response was checked).
 - Responsive images are now generated (see Section 13), but Lighthouse / real-network timings are still not measured.
 - Sitemap, structured data, OG images beyond the basics already in `head.blade.php`.
 

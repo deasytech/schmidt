@@ -10,6 +10,7 @@
         @yield('content')
     </main>
     @include('includes.footer')
+    <button type="button" class="totop" aria-label="Back to top" hidden>↑</button>
     <script src="{{ asset('js/schmidt.js') }}?v=1" defer></script>
     @stack('scripts')
 </body>

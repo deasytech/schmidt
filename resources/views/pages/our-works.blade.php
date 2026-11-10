@@ -11,8 +11,8 @@
         @if ($works->count())
             @if ($cats->count() > 1)
             <div class="filters" role="group" aria-label="Filter projects by category">
-                <button class="chip" type="button" data-filter="*" aria-pressed="true">All</button>
-                @foreach ($cats as $c)<button class="chip" type="button" data-filter="{{ $c }}" aria-pressed="false">{{ $c }}</button>@endforeach
+                <button class="chip" type="button" data-filter="*" aria-pressed="true">All <span class="chip__n">{{ $works->count() }}</span></button>
+                @foreach ($cats as $c)<button class="chip" type="button" data-filter="{{ $c }}" aria-pressed="false">{{ $c }} <span class="chip__n">{{ $works->where('sub_title', $c)->count() }}</span></button>@endforeach
             </div>
             <p id="filter-status" class="muted" role="status" aria-live="polite" style="position:absolute;left:-9999px"></p>
             @endif

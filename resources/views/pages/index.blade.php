@@ -7,13 +7,13 @@
 @endphp
 @section('og_image', $hero ? Voyager::image($hero->image) : '')
 @if ($hero && ($ss = Img::srcset($hero->image)))
-@section('preload')<link rel="preload" as="image" imagesrcset="{{ $ss }}" imagesizes="100vw" fetchpriority="high">@endsection
+@section('preload')<link rel="preload" as="image" imagesrcset="{{ $ss }}" imagesizes="(orientation:portrait) 180vh, 100vw" fetchpriority="high">@endsection
 @endif
 @section('content')
 
 @if ($hero)
 <section class="hero">
-    <div class="hero__img"><img src="{{ Img::src($hero->image, 1800) }}" @if ($ss = Img::srcset($hero->image)) srcset="{{ $ss }}" sizes="100vw" @endif alt="{{ $hero->sub_title }}" fetchpriority="high"></div>
+    <div class="hero__img"><img src="{{ Img::src($hero->image, 1800) }}" @if ($ss = Img::srcset($hero->image)) srcset="{{ $ss }}" sizes="(orientation:portrait) 180vh, 100vw" @endif alt="{{ $hero->sub_title }}" fetchpriority="high"></div>
     <div class="wrap hero__in">
         @if ($hero->title)<span class="eyebrow">{{ $hero->title }}</span>@endif
         <h1 class="h-xl">{{ $hero->sub_title }}</h1>

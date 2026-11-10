@@ -8,6 +8,14 @@
   function onScroll() { if (hdr) hdr.classList.toggle('is-solid', window.scrollY > 40 || !hdr.classList.contains('hdr--over')); }
   onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
 
+  // Back to top
+  var top = d.querySelector('.totop');
+  if (top) {
+    top.hidden = false;
+    window.addEventListener('scroll', function () { top.classList.toggle('is-on', window.scrollY > 900); }, { passive: true });
+    top.addEventListener('click', function () { window.scrollTo({ top: 0 }); var m = d.getElementById('main'); if (m) { m.setAttribute('tabindex', '-1'); m.focus({ preventScroll: true }); } });
+  }
+
   // Mobile drawer
   var btn = d.querySelector('.menu-btn'), drawer = d.getElementById('drawer');
   /** Open/close the mobile drawer and keep ARIA state in sync; noFocus skips moving focus. */

@@ -11,8 +11,8 @@ Legend: [x] verified locally · [ ] not yet verified
 ## Data / content
 - [x] No migrations or data writes introduced
 - [x] Content sourced from existing models/settings
-- [ ] Edit in Voyager appears on frontend (round trip)
+- [x] Data edits (project, team, settings) appear on frontend immediately — verified on a DB copy via SQL · [ ] via the Voyager UI
 
 ## Quality
 - [x] Desktop (1440) and 500 px visual review
-- [x] No horizontal overflow at 375/390/430/768/1440/1920 · [x] Lighthouse (local) · [x] scripted menu/filter/lightbox tests · [ ] human keyboard/screen-reader · [ ] console-error audit · [ ] visual review at 375/390/430/768/1920
+- [x] No horizontal overflow at 375/390/430/768/1440/1920 · [x] Lighthouse (local) · [x] scripted menu/filter/lightbox tests · [ ] human keyboard/screen-reader · [x] console-error audit · [x] visual review at 375/390/430 (key pages) · [ ] 768/1920 by eye
