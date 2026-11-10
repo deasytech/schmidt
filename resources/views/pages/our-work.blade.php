@@ -4,7 +4,7 @@
 @section('og_image', Voyager::image($work->image_full ?: $work->image))
 @section('overlay', '1')
 @section('content')
-@php $images = array_values(array_filter((array) json_decode($work->images, true))); @endphp
+@php $images = array_values(array_filter((array) json_decode($work->images, true), fn ($i) => is_string($i) && $i !== '')); @endphp
 @include('includes.masthead', ['title' => $work->title, 'eyebrow' => $work->sub_title, 'image' => Voyager::image($work->image_full ?: $work->image), 'crumbs' => [['Our Work', route('our-works')], [$work->title, null]]])
 
 <section class="section">

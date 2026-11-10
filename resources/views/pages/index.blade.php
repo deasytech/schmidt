@@ -1,6 +1,6 @@
 @extends('layouts.default')
 @section('overlay', '1')
-@section('description', strip_tags($page->excerpt ?: setting('site.description')))
+@section('description', strip_tags(optional($page)->excerpt ?: setting('site.description')))
 @php
     $hero = $slides->first();
     $spot = $slides->skip(1)->filter(fn ($s) => $hero && $s->title !== $hero->title);
@@ -37,9 +37,10 @@
 </section>
 @endif
 
+@if ($page)
 <section class="section section--stone">
     <div class="wrap split">
-        <div class="ph r-45 rv"><img src="{{ Voyager::image($page->image) }}" alt="{{ setting('site.title') }}" loading="lazy"></div>
+        @if ($page->image)<div class="ph r-45 rv"><img src="{{ Voyager::image($page->image) }}" alt="{{ setting('site.title') }}" loading="lazy"></div>@endif
         <div class="rv">
             <span class="eyebrow">{{ $page->excerpt }}</span>
             <h2 class="h-lg" style="margin-bottom:32px">{{ $page->title }}</h2>
@@ -48,6 +49,7 @@
         </div>
     </div>
 </section>
+@endif
 
 <section class="section">
     <div class="wrap">

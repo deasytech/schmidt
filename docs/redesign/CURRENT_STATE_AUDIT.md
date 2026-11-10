@@ -19,6 +19,7 @@
 | `/contact-us` | contact-us | contactUs | settings |
 | `POST /contact` | contact.store | storeContact | validates name,email,message; mails `ContactFormSubmitted` to `MAIL_FROM_ADDRESS`; not stored in DB; no spam protection |
 | `/admin/*` | voyager | Voyager::routes() | untouched |
+
 No individual service pages, no search route, no sitemap, robots.txt allows all. Custom 404 view: none.
 
 ## Data map
@@ -36,9 +37,9 @@ Controllers/routes/models/mail are kept as-is. Views are rewritten. Existing `Vo
 2. Social settings are placeholder root URLs -> hide unless a path exists.
 3. `projects.group` filter values do not match categories -> filter by `sub_title` (real categories).
 4. Controllers use `->first()` w/o null guards; `/our-work/{id}` for missing/inactive project would 500; new views/controller guard with 404 (additive).
-5. Contact form: no DB persistence, no honeypot; `MAIL_FROM_ADDRESS` used as recipient. Preserved; honeypot added client-side-only field (additive, optional).
+5. Contact form: no DB persistence, no honeypot; `MAIL_FROM_ADDRESS` used as recipient. Preserved as-is (double-submit is prevented client-side only; a honeypot/server-side persistence is a recommended follow-up).
 6. Duplicate articles (same title/image) — content gap, not altered.
-7. Testimonial modules have placeholder titles (S.D, T.B, OM, "Customer") — hidden from the redesign until client confirms.
+7. Testimonial modules have placeholder titles (S.D, T.B, OM, "Customer") — still rendered (quote + name) on The Company page; client should replace the placeholder names.
 8. `site.experience` is HTML and `since_year` too; the Company page hardcodes "7 years" — replaced by setting.
 9. Google Maps API key is embedded in footer; moved out of the render path (iframe embed retained, no API key needed).
 10. Original images are unknown dimensions; no responsive variants exist (no media pipeline) -> `loading=lazy`, `decoding=async`, aspect ratios only.

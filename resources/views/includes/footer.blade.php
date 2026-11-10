@@ -25,10 +25,12 @@
                 @foreach ($site['phones'] as $ph)<p><a href="tel:{{ preg_replace('/[^\d+]/', '', $ph) }}">{{ $ph }}</a></p>@endforeach
                 @if ($site['email'])<p><a href="mailto:{{ $site['email'] }}">{{ $site['email'] }}</a></p>@endif
             </div>
+            @if ($site['address'])
             <div>
                 <h4>Studio</h4>
                 <p>{{ $site['address'] }}</p>
             </div>
+            @endif
         </div>
         <div class="ftr__legal">
             <span>© {{ date('Y') }} {{ setting('site.title') }}. All rights reserved.</span>

@@ -10,17 +10,19 @@
 
   // Mobile drawer
   var btn = d.querySelector('.menu-btn'), drawer = d.getElementById('drawer');
-  function setMenu(open) {
+  /** Open/close the mobile drawer and keep ARIA state in sync; noFocus skips moving focus. */
+  function setMenu(open, noFocus) {
     body.classList.toggle('menu-open', open);
     btn.setAttribute('aria-expanded', open);
     btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     drawer.setAttribute('aria-hidden', !open);
+    if (noFocus) return;
     if (open) { var f = drawer.querySelector('a'); f && f.focus(); } else { btn.focus(); }
   }
   if (btn && drawer) {
     drawer.setAttribute('aria-hidden', 'true');
     btn.addEventListener('click', function () { setMenu(!body.classList.contains('menu-open')); });
-    drawer.addEventListener('click', function (e) { if (e.target.closest('a')) body.classList.remove('menu-open'); });
+    drawer.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false, true); });
     d.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && body.classList.contains('menu-open')) setMenu(false);
       if (e.key === 'Tab' && body.classList.contains('menu-open')) {
@@ -30,7 +32,7 @@
         else if (!e.shiftKey && i === els.length - 1) { els[0].focus(); e.preventDefault(); }
       }
     });
-    window.matchMedia('(min-width:1024px)').addEventListener('change', function (m) { if (m.matches) body.classList.remove('menu-open'); });
+    window.matchMedia('(min-width:1024px)').addEventListener('change', function (m) { if (m.matches) setMenu(false, true); });
   }
 
   // Reveal on scroll
@@ -47,7 +49,7 @@
       var f = c.getAttribute('data-filter');
       chips.forEach(function (x) { x.setAttribute('aria-pressed', x === c); });
       tiles.forEach(function (t) { t.hidden = !(f === '*' || t.getAttribute('data-cat') === f); });
-      grid.classList.toggle('is-filtered', f !== '*');
+      if (grid) grid.classList.toggle('is-filtered', f !== '*');
       var s = d.getElementById('filter-status'); if (s) s.textContent = tiles.length ? [].filter.call(tiles, function (t) { return !t.hidden; }).length + ' projects shown' : '';
     });
   });
@@ -77,7 +79,11 @@
     d.addEventListener('keydown', function (e) {
       if (!lb.classList.contains('is-open')) return;
       if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') show(cur - 1); if (e.key === 'ArrowRight') show(cur + 1);
-      if (e.key === 'Tab') { e.preventDefault(); lb.querySelector('.lb-x').focus(); }
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        var fs = [].slice.call(lb.querySelectorAll('button')), k = fs.indexOf(d.activeElement);
+        fs[(k + (e.shiftKey ? -1 : 1) + fs.length) % fs.length].focus();
+      }
     });
   }
 })();
