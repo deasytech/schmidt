@@ -20,6 +20,8 @@
 <link rel="shortcut icon" href="{{ Voyager::image(setting('site.mobile_logo')) }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Inter:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Inter:wght@400;500&display=swap"></noscript>
 <link rel="stylesheet" href="{{ asset('css/schmidt.css') }}?v=1">
+@yield('preload')
 @yield('css')

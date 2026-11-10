@@ -2,14 +2,14 @@
     <div class="wrap">
         <div class="ftr__grid">
             <div class="ftr__about">
-                <h4>{{ setting('site.title') }}</h4>
+                <p class="ftr__h">{{ setting('site.title') }}</p>
                 @if (setting('site.footer_about'))<p>{{ setting('site.footer_about') }}</p>@endif
                 @foreach ($site['social'] as $net => $url)
                     <a href="{{ $url }}" target="_blank" rel="noopener">{{ ucfirst($net) }}</a>&nbsp;
                 @endforeach
             </div>
             <div>
-                <h4>Explore</h4>
+                <p class="ftr__h">Explore</p>
                 <ul>
                     <li><a href="{{ route('the-company') }}">The Company</a></li>
                     <li><a href="{{ route('our-team') }}">Our Team</a></li>
@@ -20,13 +20,13 @@
                 </ul>
             </div>
             <div>
-                <h4>Contact</h4>
+                <p class="ftr__h">Contact</p>
                 @foreach ($site['phones'] as $ph)<p><a href="tel:{{ preg_replace('/[^\d+]/', '', $ph) }}">{{ $ph }}</a></p>@endforeach
                 @if ($site['email'])<p><a href="mailto:{{ $site['email'] }}">{{ $site['email'] }}</a></p>@endif
             </div>
             @if ($site['address'])
             <div>
-                <h4>Studio</h4>
+                <p class="ftr__h">Studio</p>
                 <p>{{ $site['address'] }}</p>
             </div>
             @endif

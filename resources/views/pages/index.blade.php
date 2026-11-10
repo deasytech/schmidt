@@ -6,6 +6,9 @@
     $spot = $slides->skip(1)->filter(fn ($s) => $hero && $s->title !== $hero->title);
 @endphp
 @section('og_image', $hero ? Voyager::image($hero->image) : '')
+@if ($hero && ($ss = Img::srcset($hero->image)))
+@section('preload')<link rel="preload" as="image" imagesrcset="{{ $ss }}" imagesizes="100vw" fetchpriority="high">@endsection
+@endif
 @section('content')
 
 @if ($hero)
