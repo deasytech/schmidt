@@ -1,52 +1,52 @@
 @extends('layouts.default')
-@section('css')
-@endsection
+@section('title', $work->title)
+@section('description', \Illuminate\Support\Str::limit(strip_tags($work->body), 160))
+@section('og_image', Voyager::image($work->image_full ?: $work->image))
+@section('overlay', Img::exists($work->image_full ?: $work->image) ? '1' : '')
 @section('content')
+@php $images = array_values(array_filter((array) json_decode($work->images, true), fn ($i) => is_string($i) && $i !== '')); @endphp
+@include('includes.masthead', ['title' => $work->title, 'eyebrow' => $work->sub_title, 'imagePath' => $work->image_full ?: $work->image, 'crumbs' => [['Our Work', route('our-works')], [$work->title, null]]])
 
-    <header class="pages-header bg-img valign parallaxie" data-background="{{ asset('img/what-we-do.jpg') }}"
-        data-overlay-dark="7">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="cont text-center">
-                        <h1>Our Work</h1>
-                        <div class="path">
-                            <a href="{{ route('home') }}">Home</a><span>/</span><a href="{{ route('our-works') }}"
-                                class="active">Our Work</a><span>/</span><a href="#"
-                                class="active">{{ $work->title }}</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<section class="section">
+    <div class="wrap split">
+        <div class="rv">
+            <dl class="facts" style="margin:0">
+                @if ($work->sub_title)<div><dt>Category</dt><dd>{{ $work->sub_title }}</dd></div>@endif
+                <div><dt>Project</dt><dd>{{ $work->title }}</dd></div>
+            </dl>
         </div>
-    </header>
+        <div class="prose rv">{!! $work->body !!}</div>
+    </div>
+</section>
 
-    <section class="intro-section section-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-4">
-                    <div class="htit">
-                        <h4>{{ $work->title }}</h4>
-                    </div>
-                </div>
-                <div class="col-lg-8 offset-lg-1 col-md-8 mb-30">
-                    <div class="text">
-                        {!! $work->body !!}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="projdtal">
-        <div class="justified-gallery">
-            @php $images = json_decode($work->images); @endphp
-            @foreach ($images as $image)
-                <a href="{{ Voyager::image($image) }}">
-                    <img alt="{{ $work->title }}" src="{{ Voyager::image($image) }}" />
-                </a>
+@if (count($images))
+<section class="section" style="padding-top:0">
+    <div class="wrap">
+        <div class="gallery" data-lightbox>
+            @foreach ($images as $i => $image)
+                <a class="rv" href="{{ Img::src($image, 1800) }}"><img src="{{ Img::src($image, 1200) }}" @if ($ss = Img::srcset($image)) srcset="{{ $ss }}" sizes="(min-width:800px) 50vw, 100vw" @endif alt="{{ $work->title }} — image {{ $i + 1 }}" loading="{{ $i < 1 ? 'eager' : 'lazy' }}" decoding="async"></a>
             @endforeach
         </div>
-    </section>
+    </div>
+</section>
+@endif
 
+@if ($prev || $next)
+<div class="wrap">
+    <nav class="pager" aria-label="More projects">
+        <div>@if ($prev)<a href="{{ route('our-work', $prev->id) }}"><span class="meta">← Previous</span><b>{{ $prev->title }}</b></a>@endif</div>
+        <div>@if ($next)<a href="{{ route('our-work', $next->id) }}"><span class="meta">Next →</span><b>{{ $next->title }}</b></a>@endif</div>
+    </nav>
+</div>
+@endif
+
+@if ($related->count())
+<section class="section section--stone">
+    <div class="wrap">
+        <div class="sec-head"><div><span class="eyebrow">Related</span><h2 class="h-lg">More projects</h2></div><a class="link" href="{{ route('our-works') }}">View all</a></div>
+        <div class="tiles">@foreach ($related as $w) @include('includes.tile', ['work' => $w, 'wide' => $loop->index % 3 === 0]) @endforeach</div>
+    </div>
+</section>
+@endif
+@include('includes.cta')
 @stop

@@ -1,48 +1,37 @@
-<nav class="navbar change navbar-expand-lg">
-    <div class="container">
-        <!-- Logo -->
-        <a class="logo" href="{{ route('home') }}">
-            <img src="{{ Voyager::image(setting('site.logo')) }}" alt="schmidt group logo">
+@php
+    $nav = [
+        ['the-company', 'The Company'],
+        ['our-team', 'Our Team'],
+        ['what-we-do', 'What We Do'],
+        ['our-works', 'Our Work'],
+        ['latest-news', 'News'],
+    ];
+    $over = trim($__env->yieldContent('overlay')) !== '';
+@endphp
+<header class="hdr {{ $over ? 'hdr--over' : 'is-solid' }}">
+    <div class="wrap hdr__in">
+        <a class="hdr__logo" href="{{ route('home') }}" aria-label="{{ setting('site.title') }} — home">
+            <img src="{{ Voyager::image(setting('site.logo')) }}" alt="{{ setting('site.title') }}" width="52" height="52">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="icon-bar"><i class="fas fa-bars"></i></span>
-        </button>
-
-        <!-- navbar links -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ route('home') }}" role="button" aria-haspopup="true"
-                        aria-expanded="false">Home</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                        aria-haspopup="true" aria-expanded="false">Who We Are</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ route('the-company') }}">The Company</a>
-                        <a class="dropdown-item" href="{{ route('our-team') }}">Our Team</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('what-we-do') }}">What We Do</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('our-works') }}">Our Work</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('latest-news') }}">Latest News</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('contact-us') }}">Contact</a>
-                </li>
-            </ul>
-            <div class="social-icon">
-                <a href="{{ setting('site.facebook') }}" target="_blank"><i class="fab fa-facebook"></i></a>
-                <a href="{{ setting('site.twitter') }}" target="_blank"><i class="fab fa-twitter"></i></a>
-                <a href="{{ setting('site.instagram') }}" target="_blank"><i class="fab fa-instagram"></i></a>
-            </div>
-
-        </div>
+        <nav class="nav" aria-label="Primary">
+            @foreach ($nav as [$r, $label])
+                <a href="{{ route($r) }}" @if(request()->routeIs($r) || ($r === 'our-works' && request()->routeIs('our-work')) || ($r === 'latest-news' && request()->routeIs('latest-post'))) aria-current="page" @endif>{{ $label }}</a>
+            @endforeach
+            <a class="nav__cta" href="{{ route('contact-us') }}" @if(request()->routeIs('contact-us')) aria-current="page" @endif>Contact</a>
+        </nav>
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="drawer" aria-label="Open menu"><span></span><span></span></button>
     </div>
-</nav>
+</header>
+<div class="drawer" id="drawer">
+    <nav aria-label="Mobile">
+        <a href="{{ route('home') }}">Home</a>
+        @foreach ($nav as [$r, $label])
+            <a href="{{ route($r) }}">{{ $label }}</a>
+        @endforeach
+        <a href="{{ route('contact-us') }}">Contact</a>
+    </nav>
+    <div class="drawer__foot">
+        @foreach ($site['phones'] as $ph)<a href="tel:{{ preg_replace('/[^\d+]/', '', $ph) }}">{{ $ph }}</a><br>@endforeach
+        @if ($site['email'])<a href="mailto:{{ $site['email'] }}">{{ $site['email'] }}</a>@endif
+    </div>
+</div>

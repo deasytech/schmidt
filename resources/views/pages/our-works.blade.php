@@ -1,49 +1,27 @@
 @extends('layouts.default')
-@section('css')
-@endsection
+@section('title', 'Our Work')
+@section('description', 'Selected architecture, interior design and construction projects by ' . setting('site.title') . '.')
+@if ($works->count())@section('overlay', '1')@endif
 @section('content')
+@php $hf = $works->firstWhere('featured',1) ?: $works->first(); $real = $works->filter(fn ($w) => $w->sub_title && $w->sub_title !== $w->title); $cats = $real->pluck('sub_title')->unique()->values(); @endphp
+@include('includes.masthead', ['title' => 'Our work', 'eyebrow' => 'Portfolio', 'imagePath' => $hf ? ($hf->image_full ?: $hf->image) : null, 'intro' => 'Architecture, interiors and construction — projects delivered by the studio.', 'crumbs' => [['Our Work', null]]])
 
-    <header class="pages-header bg-img valign parallaxie" data-background="{{ asset('img/what-we-do.jpg') }}"
-        data-overlay-dark="7">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="cont text-center">
-                        <h1>Our Work</h1>
-                        <div class="path">
-                            <a href="{{ route('home') }}">Home</a><span>/</span><a href="{{ route('our-works') }}"
-                                class="active">Our Works</a>
-                        </div>
-                    </div>
-                </div>
+<section class="section" style="padding-top:0">
+    <div class="wrap">
+        @if ($works->count())
+            @if ($cats->count() > 1)
+            <div class="filters" role="group" aria-label="Filter projects by category">
+                <button class="chip" type="button" data-filter="*" aria-pressed="true">All <span class="chip__n">{{ $works->count() }}</span></button>
+                @foreach ($cats as $c)<button class="chip" type="button" data-filter="{{ $c }}" aria-pressed="false">{{ $c }} <span class="chip__n">{{ $real->where('sub_title', $c)->count() }}</span></button>@endforeach
             </div>
-        </div>
-    </header>
-
-    <section class="portfolio section-padding">
-        <div class="container">
-            <div class="row">
-                <!-- gallery -->
-                <div class="gallery twsty inf-lit full-width">
-                    @foreach ($works as $work)
-                        <!-- gallery item -->
-                        <div class="items {{ $work->group }} three-column mt-50">
-                            <div class="item-img bg-img" data-background="{{ Voyager::image($work->image) }}">
-                                <a href="{{ route('our-work', $work->id) }}">
-                                    <div class="item-img-overlay"></div>
-                                </a>
-                            </div>
-                            <div class="info mt-10">
-                                <h5>{{ $work->title }}</h5>
-                                {{-- <span>{{ $work->sub_title }}</span> --}}
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section>
-
-    @include('includes.clients')
-
+            <p id="filter-status" class="muted" role="status" aria-live="polite" style="position:absolute;left:-9999px"></p>
+            @endif
+            <div class="tiles">@foreach ($works as $work) @include('includes.tile', ['work' => $work, 'wide' => $loop->index % 3 === 0]) @endforeach</div>
+        @else
+            <div class="empty"><h2 class="h-md">Projects are coming soon.</h2><p class="muted">Please check back shortly.</p></div>
+        @endif
+    </div>
+</section>
+@include('includes.clients')
+@include('includes.cta')
 @stop
