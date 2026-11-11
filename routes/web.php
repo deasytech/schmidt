@@ -17,3 +17,6 @@ Route::post('/contact', [PageController::class, 'storeContact'])->name('contact.
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
+
+// Maintenance without SSH. Returns 404 unless DEPLOY_TOKEN is set in .env (see docs/redesign/SHARED_HOSTING.md).
+Route::get('/_deploy/{task}', [\App\Http\Controllers\DeployController::class, 'run'])->name('deploy.task');
